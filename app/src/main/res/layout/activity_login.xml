@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login">
+
+    <ImageView
+        android:id="@+id/img_AppIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:contentDescription="@string/empty"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_background"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <EditText
+        android:id="@+id/et_Email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:autofillHints="@string/empty"
+        android:ems="10"
+        android:hint="@string/Email"
+        android:inputType="textEmailAddress"
+        android:text="@string/empty"
+        app:layout_constraintEnd_toEndOf="@+id/img_AppIcon"
+        app:layout_constraintStart_toStartOf="@+id/img_AppIcon"
+        app:layout_constraintTop_toBottomOf="@+id/img_AppIcon" />
+
+    <EditText
+        android:id="@+id/et_Password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:autofillHints="@string/Email"
+        android:ems="10"
+        android:hint="@string/Password"
+        android:inputType="textPassword"
+        android:text="@string/empty"
+        app:layout_constraintEnd_toEndOf="@+id/et_Email"
+        app:layout_constraintStart_toStartOf="@+id/et_Email"
+        app:layout_constraintTop_toBottomOf="@+id/et_Email" />
+
+    <Button
+        android:id="@+id/btn_Login"
+        android:layout_width="130dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/Login"
+        app:layout_constraintEnd_toEndOf="@+id/et_Password"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/et_Password"
+        app:layout_constraintTop_toBottomOf="@+id/et_Password" />
+
+    <ImageButton
+        android:id="@+id/igmbtn_View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/visible_eye"
+        android:contentDescription="@string/empty"
+        app:layout_constraintEnd_toEndOf="@+id/et_Password"
+        app:layout_constraintTop_toTopOf="@+id/et_Password"
+        app:srcCompat="@drawable/invisible_eye" />
+</androidx.constraintlayout.widget.ConstraintLayout>
