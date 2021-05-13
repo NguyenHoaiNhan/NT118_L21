@@ -13,7 +13,7 @@
     <string name="FailedStatus">Failed</string>
     <string name="SuccessStatus">Success</string>
     <string name="Email">Email</string>
-    <string name="PhoneNo">PhoneNo</string>
+    <string name="PhoneNo">Phone Number</string>
 
     <string name="Icon">Icon</string>
 </resources>
