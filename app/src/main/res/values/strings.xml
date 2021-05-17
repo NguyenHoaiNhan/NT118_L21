@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">HealthGO</string>
+    <string name="Login">Login</string>
+    <string name="SignUp">Sign Up</string>
+    <string name="Password">Password</string>
+    <string name="RetypePassword">Retype Password</string>
+    <string name="Phone">Phone Number</string>
+    <string name="Email">Email</string>
+    <string name="ForgotPassword">Forgot Password</string>
+    <string name="FullName">Full Name</string>
+    <string name="NhapEmail">Enter your email</string>
+    <string name="Reset">Reset Password</string>
+</resources>
