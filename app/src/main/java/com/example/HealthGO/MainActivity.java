@@ -11,14 +11,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.HealthGO.startup_screen.LoginAdapter;
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -30,12 +22,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
@@ -48,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
-    private CallbackManager mCallbackManager;
 
     @Override
     public void onStart() {
@@ -67,22 +56,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        FacebookSdk.sdkInitialize(this);
         setContentView(R.layout.activity_main);
         init();
         animation();
         GoogleCreateRequest();
-        FacebookCreateRequest();
         GoogleClicked();
     }
 
     private void GoogleClicked() {
-        Google.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signInGoogle();
-            }
-        });
+        Google.setOnClickListener(v -> signInGoogle());
     }
 
     private void GoogleCreateRequest() {
@@ -94,48 +76,6 @@ public class MainActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
-    private void FacebookCreateRequest() {
-        mCallbackManager = CallbackManager.Factory.create();
-
-        LoginManager.getInstance().registerCallback(mCallbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        handleFacebookAccessToken(loginResult.getAccessToken());
-                    }
-                    @Override
-                    public void onCancel() {
-                        Toast.makeText(MainActivity.this, "Login Cancel", Toast.LENGTH_LONG).show();
-                    }
-                    @Override
-                    public void onError(FacebookException exception) {
-                        Toast.makeText(MainActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        FaceBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginManager.getInstance().logInWithReadPermissions(MainActivity.this, Arrays.asList("email"));
-            }
-        });
-    }
-
-    private void handleFacebookAccessToken(AccessToken token) {
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            updateUI(null);
-                        }
-                    }
-                });
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -149,9 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.w(TAG, e.getMessage());
             }
         }
-        else {
-            mCallbackManager.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     private void signInGoogle() {
@@ -161,15 +98,12 @@ public class MainActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                        }
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        updateUI(user);
+                    } else {
+                        Log.w(TAG, "signInWithCredential:failure", task.getException());
                     }
                 });
     }
@@ -184,9 +118,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Login"));
         tabLayout.addTab(tabLayout.newTab().setText("Register"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-        FacebookSdk.sdkInitialize(this.getApplicationContext());
-        mCallbackManager = CallbackManager.Factory.create();
 
         final LoginAdapter adapter = new LoginAdapter(getSupportFragmentManager(), this, tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
@@ -211,6 +142,4 @@ public class MainActivity extends AppCompatActivity {
         Twitter.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(800).start();
         tabLayout.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(100).start();
     }
-
-
 }
