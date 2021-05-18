@@ -1,9 +1,9 @@
 package com.example.HealthGO.startup_screen;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,13 +17,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.HealthGO.R;
+import com.example.HealthGO.Test;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -72,13 +70,13 @@ public class SignUpTabFragment extends Fragment {
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     if (event.getRawX() >= (Password.getRight() - Password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        Password.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock, 0, R.drawable.visible, 0);
+                        Password.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, R.drawable.ic_visible, 0);
                         Password.setTransformationMethod(null);
                     }
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (Password.getRight() - Password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        Password.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock, 0, R.drawable.invisible, 0);
+                        Password.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, R.drawable.ic_invisible, 0);
                         Password.setTransformationMethod(new PasswordTransformationMethod());
                     }
                 }
@@ -98,13 +96,13 @@ public class SignUpTabFragment extends Fragment {
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     if (event.getRawX() >= (RetypePassword.getRight() - RetypePassword.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        RetypePassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock, 0, R.drawable.visible, 0);
+                        RetypePassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, R.drawable.ic_visible, 0);
                         RetypePassword.setTransformationMethod(null);
                     }
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (RetypePassword.getRight() - RetypePassword.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        RetypePassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock, 0, R.drawable.invisible, 0);
+                        RetypePassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, R.drawable.ic_invisible, 0);
                         RetypePassword.setTransformationMethod(new PasswordTransformationMethod());
                     }
                 }
@@ -124,6 +122,7 @@ public class SignUpTabFragment extends Fragment {
                             if (task.isSuccessful()) {
                                 AddUserToStore();
                                 Toast.makeText(v.getContext(), "User created", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(v.getContext(), Test.class));
                             }
                             else {
                                 Toast.makeText(v.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
