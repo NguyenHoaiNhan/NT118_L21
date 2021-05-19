@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.HealthGO.R;
 import com.example.HealthGO.Test;
+import com.example.HealthGO.main_menu_screen.BottomNavigation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -109,7 +110,7 @@ public class LoginTabFragment extends Fragment {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 Toast.makeText(v.getContext(), "User login", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(v.getContext(), Test.class));
+                                startActivity(new Intent(v.getContext(), BottomNavigation.class));
                             }
                             else {
                                 Toast.makeText(v.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
