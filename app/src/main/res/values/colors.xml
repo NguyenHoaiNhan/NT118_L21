@@ -10,6 +10,8 @@
     <color name="yellow">#F0A40C</color>
     <color name="blue_bottom_bar">#3c415e</color>
 
+    <color name="green">#028107</color>
+
     <color name="orange">#FF5B00</color>
     <color name="almond">#FEEBCD</color>
 
@@ -38,4 +40,5 @@
     <color name="ecolor2">#a2bfbd</color>
     <color name="ecolor3">#ffcea2</color>
     <color name="bg">#FFFFFFFF</color>
+
 </resources>
