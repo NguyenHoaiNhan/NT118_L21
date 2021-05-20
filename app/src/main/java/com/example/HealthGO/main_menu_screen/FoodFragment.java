@@ -4,24 +4,28 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 
+import androidx.constraintlayout.solver.state.State;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.HealthGO.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FoodFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class FoodFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private RecyclerView recyclerView;
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -29,15 +33,6 @@ public class FoodFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FoodFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static FoodFragment newInstance(String param1, String param2) {
         FoodFragment fragment = new FoodFragment();
         Bundle args = new Bundle();
@@ -59,7 +54,25 @@ public class FoodFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_food, container, false);
+        View view = inflater.inflate(R.layout.fragment_food, container, false);
+        init(view);
+        return view;
+    }
+
+    private void init(View view) {
+        recyclerView = view.findViewById(R.id.recyclerView);
+
+        List<FoodCard> list = new ArrayList<>();
+
+        list.add(new FoodCard("Gà kho", "Cách chế biến gà kho", R.drawable.ll_avatar));
+        list.add(new FoodCard("Thịt kho", "Cách chế biến thịt kho", R.drawable.ll_avatar));
+        list.add(new FoodCard("Gà luộc", "Cách chế biến gà luộc", R.drawable.ll_avatar));
+
+        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(view.getContext(), R.anim.anim_left_to_right);
+        recyclerView.setLayoutAnimation(layoutAnimationController);
+
+        FoodAdapter foodAdapter = new FoodAdapter(view.getContext(), list);
+        recyclerView.setAdapter(foodAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
     }
 }
