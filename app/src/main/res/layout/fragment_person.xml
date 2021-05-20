@@ -134,7 +134,7 @@
                 android:layout_marginTop="24dp"
                 android:background="@drawable/shape_et"
                 android:checked="true"
-                android:drawableStart="@drawable/ic_notification"
+                android:drawableStart="@drawable/ic_notify"
                 android:drawablePadding="20dp"
                 android:padding="10dp"
                 android:text="@string/Notification"
