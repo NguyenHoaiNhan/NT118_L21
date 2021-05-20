@@ -13,5 +13,9 @@
     <string name="facebook_app_id">286150619853360</string>
     <string name="fb_login_protocol_scheme">fb286150619853360</string>
     <string name="Logout">Log out</string>
+    <string name="EditProfile">Edit Profile</string>
+    <string name="About">About HealthGO</string>
+    <string name="Report">Report Error</string>
+    <string name="Notification">Notification</string>
 
 </resources>

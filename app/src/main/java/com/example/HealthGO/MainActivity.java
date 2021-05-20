@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.HealthGO.main_menu_screen.BottomNavigation;
 import com.example.HealthGO.startup_screen.LoginAdapter;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -21,13 +22,19 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
-    TabLayout tabLayout;
-    ViewPager viewPager;
-    FloatingActionButton FaceBook, Google, Twitter;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private FloatingActionButton FaceBook, Google, Twitter;
+    private FirebaseFirestore mStore;
+    Map<String, Object> user = new HashMap<>();
 
     float v = 0;
 
@@ -45,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            startActivity(new Intent(this, Test.class));
+            startActivity(new Intent(this, BottomNavigation.class));
         }
     }
 
@@ -100,12 +107,23 @@ public class MainActivity extends AppCompatActivity {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        updateUI(user);
+                        AddUserToStore();
+                        updateUI(mAuth.getCurrentUser());
                     } else {
                         Toast.makeText(this, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void AddUserToStore() {
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+
+        user.put("Email", acct.getEmail());
+        user.put("ID", mAuth.getCurrentUser().getUid());
+        user.put("Name", acct.getDisplayName());
+        user.put("PhoneNo", "");
+
+        mStore.collection("user").document(mAuth.getCurrentUser().getUid()).set(user);
     }
 
     private void init() {
@@ -114,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         FaceBook = findViewById(R.id.fab_facebook);
         Google = findViewById(R.id.fab_google);
         Twitter = findViewById(R.id.fab_twitter);
+        mStore = FirebaseFirestore.getInstance();
 
         tabLayout.addTab(tabLayout.newTab().setText("Login"));
         tabLayout.addTab(tabLayout.newTab().setText("Register"));

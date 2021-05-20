@@ -22,23 +22,24 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.HealthGO.R;
-import com.example.HealthGO.Test;
 import com.example.HealthGO.main_menu_screen.BottomNavigation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Objects;
+
 public class LoginTabFragment extends Fragment {
     private EditText email;
     private EditText password;
     private TextView forgotPassword;
-    EditText rsEmail;
-    Button Reset;
+    private EditText rsEmail;
+    private Button Reset;
     private Button Login;
     private float v = 0;
     private FirebaseAuth mAuth;
-    Dialog mDialog;
+    private Dialog mDialog;
 
     @Nullable
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,12 +55,9 @@ public class LoginTabFragment extends Fragment {
         LoginClicked();
         PasswordClicked();
 
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialog = new Dialog(v.getContext());
-                ShowPopUp(v);
-            }
+        forgotPassword.setOnClickListener(v -> {
+            mDialog = new Dialog(v.getContext());
+            ShowPopUp(v);
         });
 
         return root;
@@ -77,47 +75,41 @@ public class LoginTabFragment extends Fragment {
         Reset = mDialog.findViewById(R.id.Reset);
         rsEmail = mDialog.findViewById(R.id.ResetEmail);
 
-        Reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (rsEmail.getText().toString().isEmpty()) {
-                    rsEmail.setError("Email is required");
-                }
-                else {
-                    mAuth.sendPasswordResetEmail(rsEmail.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(v.getContext(), "Email Send", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                Toast.makeText(v.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
+        Reset.setOnClickListener(v1 -> {
+            if (rsEmail.getText().toString().isEmpty()) {
+                rsEmail.setError("Email is required");
+            }
+            else {
+                mAuth.sendPasswordResetEmail(rsEmail.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(v1.getContext(), "Email Send", Toast.LENGTH_SHORT).show();
                         }
-                    });
-                }
+                        else {
+                            Toast.makeText(v1.getContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }
 
     private void LoginClicked() {
-        Login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isValid()) {
-                    mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(v.getContext(), "User login", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(v.getContext(), BottomNavigation.class));
-                            }
-                            else {
-                                Toast.makeText(v.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
+        Login.setOnClickListener(v -> {
+            if (isValid()) {
+                mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(v.getContext(), "User login", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(v.getContext(), BottomNavigation.class));
                         }
-                    });
-                }
+                        else {
+                            Toast.makeText(v.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }

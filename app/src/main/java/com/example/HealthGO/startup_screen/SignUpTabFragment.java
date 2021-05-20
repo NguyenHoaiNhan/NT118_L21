@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.HealthGO.R;
-import com.example.HealthGO.Test;
+import com.example.HealthGO.main_menu_screen.BottomNavigation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -59,77 +59,66 @@ public class SignUpTabFragment extends Fragment {
     }
 
     private void PasswordClicked() {
-        Password.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            @SuppressLint("ClickableViewAccessibility")
-            public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
-                final int DRAWABLE_TOP = 1;
-                final int DRAWABLE_RIGHT = 2;
-                final int DRAWABLE_BOTTOM = 3;
+        Password.setOnTouchListener((v, event) -> {
+            final int DRAWABLE_LEFT = 0;
+            final int DRAWABLE_TOP = 1;
+            final int DRAWABLE_RIGHT = 2;
+            final int DRAWABLE_BOTTOM = 3;
 
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (event.getRawX() >= (Password.getRight() - Password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        Password.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, R.drawable.ic_visible, 0);
-                        Password.setTransformationMethod(null);
-                    }
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getRawX() >= (Password.getRight() - Password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                    Password.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, R.drawable.ic_visible, 0);
+                    Password.setTransformationMethod(null);
                 }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= (Password.getRight() - Password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        Password.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, R.drawable.ic_invisible, 0);
-                        Password.setTransformationMethod(new PasswordTransformationMethod());
-                    }
-                }
-                return false;
             }
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (Password.getRight() - Password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                    Password.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, R.drawable.ic_invisible, 0);
+                    Password.setTransformationMethod(new PasswordTransformationMethod());
+                }
+            }
+            return false;
         });
     }
     private  void RetypePasswordClicked() {
-        RetypePassword.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            @SuppressLint("ClickableViewAccessibility")
-            public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
-                final int DRAWABLE_TOP = 1;
-                final int DRAWABLE_RIGHT = 2;
-                final int DRAWABLE_BOTTOM = 3;
+        RetypePassword.setOnTouchListener((v, event) -> {
+            final int DRAWABLE_LEFT = 0;
+            final int DRAWABLE_TOP = 1;
+            final int DRAWABLE_RIGHT = 2;
+            final int DRAWABLE_BOTTOM = 3;
 
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (event.getRawX() >= (RetypePassword.getRight() - RetypePassword.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        RetypePassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, R.drawable.ic_visible, 0);
-                        RetypePassword.setTransformationMethod(null);
-                    }
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getRawX() >= (RetypePassword.getRight() - RetypePassword.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                    RetypePassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, R.drawable.ic_visible, 0);
+                    RetypePassword.setTransformationMethod(null);
                 }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= (RetypePassword.getRight() - RetypePassword.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        RetypePassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, R.drawable.ic_invisible, 0);
-                        RetypePassword.setTransformationMethod(new PasswordTransformationMethod());
-                    }
-                }
-                return false;
             }
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (RetypePassword.getRight() - RetypePassword.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                    RetypePassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock, 0, R.drawable.ic_invisible, 0);
+                    RetypePassword.setTransformationMethod(new PasswordTransformationMethod());
+                }
+            }
+            return false;
         });
     }
 
     private void RegisterClicked() {
-        SignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isValid()) {
-                    mAuth.createUserWithEmailAndPassword(Email.getText().toString(), Password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                AddUserToStore();
-                                Toast.makeText(v.getContext(), "User created", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(v.getContext(), Test.class));
-                            }
-                            else {
-                                Toast.makeText(v.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
+        SignUp.setOnClickListener(v -> {
+            if (isValid()) {
+                mAuth.createUserWithEmailAndPassword(Email.getText().toString(), Password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            AddUserToStore();
+                            Toast.makeText(v.getContext(), "User created", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(v.getContext(), BottomNavigation.class));
                         }
-                    });
-                }
+                        else {
+                            Toast.makeText(v.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }
