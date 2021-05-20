@@ -22,11 +22,7 @@ public class HeartRateActivity extends Activity {
     @Override
     protected void onCreate(final Bundle b) {
         super.onCreate(b);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
-            }
-        }
+
         // Create new fragment and transaction
         Fragment newFragment = new HeartRateFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();

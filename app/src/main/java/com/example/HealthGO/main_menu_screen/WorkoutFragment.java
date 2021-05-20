@@ -1,6 +1,9 @@
 package com.example.HealthGO.main_menu_screen;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +12,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.HealthGO.R;
@@ -16,6 +20,7 @@ import com.example.HealthGO.gym.GYMActivity;
 import com.example.HealthGO.heartrate.HeartRateActivity;
 import com.example.HealthGO.pedometer.PedometerMainActivity;
 
+import androidx.core.content.PermissionChecker;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -95,5 +100,11 @@ public class WorkoutFragment extends Fragment {
             Intent intent =new Intent(getActivity(), GYMActivity.class);
             startActivity(intent);
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
     }
 }
