@@ -6,17 +6,17 @@
     <uses-feature
         android:name="android.hardware.sensor.stepcounter"
         android:required="true"/>
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.flash"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-feature android:name="android.hardware.camera"/>
-
-    <uses-feature android:name="android.hardware.camera.flash"/>
-
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
@@ -36,34 +36,34 @@
         </activity>
         <activity android:name=".main_menu_screen.BottomNavigation"/>
 
+        <activity
+            android:name=".pedometer.PedometerMainActivity"
+            android:label="@string/app_name" android:windowSoftInputMode="stateHidden"
+            android:parentActivityName="com.example.HealthGO.main_menu_screen.BottomNavigation"/>
 
+        <activity
+            android:name=".heartrate.HeartRateActivity"
+            android:label="@string/app_name" android:windowSoftInputMode="stateHidden"
+            android:parentActivityName="com.example.HealthGO.main_menu_screen.BottomNavigation"/>
 
-        <activity android:name=".pedometer.PedometerMainActivity"
-            android:label="@string/app_name" android:windowSoftInputMode="stateHidden" android:parentActivityName="com.bongdungyeuem27.myhealth.WorkOutActivity"/>
-        <activity android:name=".heartrate.HeartRateActivity"
-            android:label="@string/app_name" android:windowSoftInputMode="stateHidden" android:parentActivityName="com.bongdungyeuem27.myhealth.WorkOutActivity"/>
-        <activity android:name=".gym.GYMActivity"
-            android:label="@string/app_name" android:windowSoftInputMode="stateHidden" android:parentActivityName="com.bongdungyeuem27.myhealth.WorkOutActivity"/>
-
-
-
-
-
+        <activity
+            android:name=".gym.GYMActivity"
+            android:label="@string/app_name" android:windowSoftInputMode="stateHidden"
+            android:parentActivityName="com.example.HealthGO.main_menu_screen.BottomNavigation"/>
 
         <receiver android:name=".pedometer.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
+
         <receiver android:name=".pedometer.AppUpdatedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
             </intent-filter>
         </receiver>
 
-        <service
-            android:name=".pedometer.SensorListener"/>
-
+        <service android:name=".pedometer.SensorListener"/>
         <service
             android:name=".pedometer.widget.DashClock"
             android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">

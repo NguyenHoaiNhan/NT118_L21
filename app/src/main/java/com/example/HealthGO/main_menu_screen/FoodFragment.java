@@ -1,6 +1,7 @@
 package com.example.HealthGO.main_menu_screen;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.solver.state.State;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -15,6 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.HealthGO.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +37,8 @@ public class FoodFragment extends Fragment {
 
     private String mParam1;
     private String mParam2;
+    private FirebaseFirestore db;
+    private List<FoodCard> list = new ArrayList<>();
 
     public FoodFragment() {
         // Required empty public constructor
@@ -61,18 +72,28 @@ public class FoodFragment extends Fragment {
 
     private void init(View view) {
         recyclerView = view.findViewById(R.id.recyclerView);
+        db = FirebaseFirestore.getInstance();
+        db.collection("food")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String Title = document.getString("Title");
+                            String Description = document.getString("Brief description");
+                            String URL = document.getString("URL");
 
-        List<FoodCard> list = new ArrayList<>();
+                            list.add(new FoodCard(Title, Description, URL));
+                        }
 
-        list.add(new FoodCard("Gà kho", "Cách chế biến gà kho", R.drawable.ll_avatar));
-        list.add(new FoodCard("Thịt kho", "Cách chế biến thịt kho", R.drawable.ll_avatar));
-        list.add(new FoodCard("Gà luộc", "Cách chế biến gà luộc", R.drawable.ll_avatar));
+                        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(view.getContext(), R.anim.anim_left_to_right);
+                        recyclerView.setLayoutAnimation(layoutAnimationController);
 
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(view.getContext(), R.anim.anim_left_to_right);
-        recyclerView.setLayoutAnimation(layoutAnimationController);
-
-        FoodAdapter foodAdapter = new FoodAdapter(view.getContext(), list);
-        recyclerView.setAdapter(foodAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                        FoodAdapter foodAdapter = new FoodAdapter(view.getContext(), list);
+                        recyclerView.setAdapter(foodAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                    } else {
+                        Log.e("FIRE STORE", "Error getting documents: ", task.getException());
+                    }
+                });
     }
 }

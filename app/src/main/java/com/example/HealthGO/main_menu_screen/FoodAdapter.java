@@ -10,16 +10,34 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.HealthGO.R;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
 
-public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.MyViewHolder> {
+public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     Context context;
     List<FoodCard> list;
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView Title;
+        private final TextView Description;
+        private final ImageView imageView;
+
+        public ViewHolder(View view) {
+            super(view);
+            Title = itemView.findViewById(R.id.Title);
+            Description = itemView.findViewById(R.id.Description);
+            imageView = itemView.findViewById(R.id.FoodImage);
+        }
+
+        public TextView getTitle() {return Title;}
+        public TextView getDescription() {return Description;}
+        public ImageView getImageView() {return imageView;}
+    }
 
     public FoodAdapter(Context context, List<FoodCard> list) {
         this.context = context;
@@ -28,35 +46,23 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.MyViewHolder> 
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.cardview_food, parent, false);
-        return new MyViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.cardview_food, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.Title.setText(list.get(position).getTitle());
-        holder.Description.setText(list.get(position).getDescription());
-        holder.imageView.setImageResource(list.get(position).getImageSource());
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.getTitle().setText(list.get(position).getTitle());
+        holder.getDescription().setText(list.get(position).getDescription());
+        Glide.with(context)
+                .load(list.get(position).getImageSource())
+                .into(holder.getImageView());
     }
 
     @Override
     public int getItemCount() {
         return list.size();
-    }
-
-
-    public class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView Title;
-        private TextView Description;
-        private ImageView imageView;
-
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            Title = itemView.findViewById(R.id.Title);
-            Description = itemView.findViewById(R.id.Description);
-            imageView = itemView.findViewById(R.id.FoodImage);
-        }
     }
 }

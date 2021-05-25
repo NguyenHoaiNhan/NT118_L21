@@ -5,10 +5,10 @@ import android.widget.ImageView;
 public class FoodCard {
     private String Title;
     private String Description;
-    private int ImageSource;
+    private String ImageSource;
 
     public FoodCard(){}
-    public FoodCard(String Title, String Description, int ImageSource) {
+    public FoodCard(String Title, String Description, String ImageSource) {
         this.Title = Title;
         this.Description = Description;
         this.ImageSource = ImageSource;
@@ -22,7 +22,7 @@ public class FoodCard {
         return Description;
     }
 
-    public int getImageSource() {
+    public String getImageSource() {
         return ImageSource;
     }
 }
