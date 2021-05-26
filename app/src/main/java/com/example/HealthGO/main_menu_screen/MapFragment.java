@@ -3,12 +3,18 @@ package com.example.HealthGO.main_menu_screen;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +36,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapFragment extends Fragment implements OnMapReadyCallback{
 
 
@@ -45,11 +55,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private static final float DEFAULT_ZOOM = 15f;
+    private EditText mSearchText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
+        //mSearchText = getView().findViewById(R.id.input_search);
         //Get location permission
         getLocationPermission();
         //Initialize map
@@ -120,6 +132,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                 return;
             }
             mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            mSearchText = getView().findViewById(R.id.input_search);
+            initMapSearchBar();
         }
     }
 
@@ -146,6 +161,39 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         } else{
             ActivityCompat.requestPermissions(getActivity(), permission,
                     LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    private void initMapSearchBar(){
+        Log.d(TAG, "initMapSearchBar: initializing");
+        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH
+                || actionId == EditorInfo.IME_ACTION_DONE
+                || event.getAction() == KeyEvent.ACTION_DOWN
+                || event.getAction() == KeyEvent.KEYCODE_ENTER){
+                    //Execute our method for searching
+                    geoLocate();
+                }
+                return false;
+            }
+        });
+    }
+
+    private void geoLocate(){
+        Log.d(TAG, "geoLocate: geolocating");
+        String searchString = mSearchText.getText().toString();
+        Geocoder geocoder = new Geocoder(getContext());
+        List<Address> list = new ArrayList<>();
+        try{
+            list = geocoder.getFromLocationName(searchString, 1);
+        } catch (IOException e){
+            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
+        }
+        if(list.size() > 0){
+            Address address = list.get(0);
+            Log.d(TAG, "geoLocate: found a location: " + address.toString());
         }
     }
 
