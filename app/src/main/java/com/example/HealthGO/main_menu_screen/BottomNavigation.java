@@ -21,9 +21,10 @@ public class BottomNavigation extends AppCompatActivity {
         bottomNavigation = (MeowBottomNavigation) findViewById(R.id.bottom_navigation);
 
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_food));
-        bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_map));
-        bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_workout));
-        bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.ic_person));
+        bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_workout));
+        bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_map));
+        bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.ic_heart));
+        bottomNavigation.add(new MeowBottomNavigation.Model(5, R.drawable.ic_person));
 
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
@@ -34,12 +35,15 @@ public class BottomNavigation extends AppCompatActivity {
                         fragment = new FoodFragment();
                         break;
                     case 2:
-                        fragment = new MapFragment();
-                        break;
-                    case 3:
                         fragment = new WorkoutFragment();
                         break;
+                    case 3:
+                        fragment = new MapFragment();
+                        break;
                     case 4:
+                        fragment = new FavoriteFragment();
+                        break;
+                    case 5:
                         fragment = new PersonFragment();
                         break;
                 }

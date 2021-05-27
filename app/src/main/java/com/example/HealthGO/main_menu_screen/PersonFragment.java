@@ -102,19 +102,24 @@ public class PersonFragment extends Fragment {
         Notify.setTranslationY(800);
         Report.setTranslationY(800);
         About.setTranslationY(800);
-
+        uName.setTranslationX(-300);
+        uEmail.setTranslationX(-300);
 
         Logout.setAlpha(0);
         EditProfile.setAlpha(0);
         Notify.setAlpha(0);
         Report.setAlpha(0);
         About.setAlpha(0);
+        uName.setAlpha(0);
+        uEmail.setAlpha(0);
 
         Logout.animate().translationX(0).alpha(1).setDuration(600).setStartDelay(300).start();
         EditProfile.animate().translationY(0).alpha(1).setDuration(600).setStartDelay(300).start();
         Notify.animate().translationY(0).alpha(1).setDuration(600).setStartDelay(300).start();
         Report.animate().translationY(0).alpha(1).setDuration(600).setStartDelay(400).start();
         About.animate().translationY(0).alpha(1).setDuration(600).setStartDelay(500).start();
+        uEmail.animate().translationX(0).alpha(1).setDuration(600).setStartDelay(500).start();
+        uName.animate().translationX(0).alpha(1).setDuration(600).setStartDelay(500).start();
     }
 
     private void SignOut(View view) {
@@ -134,7 +139,7 @@ public class PersonFragment extends Fragment {
                 .requestEmail()
                 .build();
 
-        mGoogleSignInClient = GoogleSignIn.getClient(Objects.requireNonNull(getActivity()).getApplicationContext(), gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity().getApplicationContext(), gso);
     }
 
 }

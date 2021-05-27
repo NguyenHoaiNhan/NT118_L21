@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_margin="10dp"
+    style="@style/CardView.Light"
+    app:cardCornerRadius="8dp"
+    android:elevation="3dp"
+    android:background="@color/black">
+
+    <ImageView
+        android:id="@+id/ThumbNail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Lable"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/white"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="18dp"
+        android:layout_marginBottom="18dp"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:shadowColor="@color/black"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"/>
+
+    <ImageButton
+        android:id="@+id/Favor"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="18dp"
+        android:layout_gravity="bottom|end"
+        android:backgroundTint="@null"
+        android:src="@drawable/ic_favorite_grey"
+        android:background="@android:color/transparent"/>
+
+</androidx.cardview.widget.CardView>
