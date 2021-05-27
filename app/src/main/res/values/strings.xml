@@ -76,7 +76,7 @@
     <string name="permission_external_storage">No permission to access external storage</string>
     <string name="notification_settings">Notification settings</string>
     <string name="promote">Đo nhịp tim</string>
-    <string name="sales_log">Theo dõi bước chạy</string>
+    <string name="sales_log">Chạy bộ</string>
     <string name="account_list">Tập GYM</string>
     <string name="sales_log_text">Sales Log</string>
     <string name="return_sale">Make a return</string>
