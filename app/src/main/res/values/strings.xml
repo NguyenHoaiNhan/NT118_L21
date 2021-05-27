@@ -105,7 +105,7 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="instructions">Place your finger gently on the back of the camera overlapping the flashlight .\n\n DO NOT PRESS , It might break the blood flow . \n\n Try to keep the finger still as possible . \n\n Press START to start monitoring .</string>
+    <string name="instructions">Đặt ngón tay của bạn nhẹ nhàng lên mặt sau của máy ảnh và chồng lên đèn Flash.</string>
     <string name="healthgolable">HealthGO</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

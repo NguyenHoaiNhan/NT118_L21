@@ -18,7 +18,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="center"
             android:layout_margin="40dp"
             app:cardBackgroundColor="@color/color3"
             app:cardElevation="10dp"
@@ -36,7 +36,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="instructions : "
+            android:text="lưu ý : "
             android:textColor="@color/color2"
             android:textAllCaps="true"
             android:textSize="18dp"
@@ -46,8 +46,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="35dp"
-            android:paddingEnd="10dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
             android:textStyle="bold"
             android:textColor="@color/color3"
             android:text="@string/instructions"/>
@@ -59,20 +59,21 @@
             android:layout_marginHorizontal="60dp"
             android:layout_marginTop="20dp"
             android:textStyle="bold"
-            android:background="@color/color2"
+            android:background="@color/yellow"
             android:textColor="@color/color1"
-            android:text="START"/>
+            android:text="bắt đầu"/>
 
         <TextView
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="left"
+            android:paddingLeft="30dp"
             android:layout_marginTop="25dp"
             android:textStyle="bold"
             android:textSize="15dp"
             android:textColor="@color/color2"
-            android:text="Monitor Heart Rate "/>
+            android:text="Monitor Heart Rate"/>
 
         <LinearLayout
             android:layout_width="match_parent"
