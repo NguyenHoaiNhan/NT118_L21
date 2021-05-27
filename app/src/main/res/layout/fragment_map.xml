@@ -2,43 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".main_menu_screen.MapFragment">
+    android:layout_height="match_parent">
 
     <fragment
         android:id="@+id/google_map_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.google.android.gms.maps.SupportMapFragment"/>
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        tools:context=".main_menu_screen.MapFragment"/>
 
-    <RelativeLayout
+    <SearchView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:elevation="10dp"
-        android:background="@drawable/border"
-        android:id="@+id/relLayout1">
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_magnify"
-            android:id="@+id/ic_magnify"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@id/ic_magnify"
-            android:layout_centerVertical="true"
-            android:textSize="15sp"
-            android:textColor="@color/blue_bottom_bar"
-            android:id="@+id/input_search"
-            android:background="@null"
-            android:hint="Where do you want to find?"
-            android:textAlignment="center"
-            android:imeOptions="actionSearch"/>
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:id="@+id/input_search"
+        android:queryHint="Type your restaurant"
+        android:layout_margin="10dp"
+        android:elevation="5dp"
+        android:background="@drawable/border"/>
 
 </RelativeLayout>
