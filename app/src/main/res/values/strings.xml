@@ -18,7 +18,6 @@
     <string name="Report">Report Error</string>
     <string name="Notification">Notification</string>
 
-
     <!--khanh's string-->
     <string name="goal">Goal</string>
     <string name="step_size">Step size</string>
@@ -110,5 +109,6 @@
     <string name="healthgolable">HealthGO</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="GoogleMapKey">AIzaSyB9rJPmnNxwgEBtUznF5C-lDtOuQgiiyw8</string>
 
 </resources>

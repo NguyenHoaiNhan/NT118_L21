@@ -20,4 +20,37 @@
         android:elevation="5dp"
         android:background="@drawable/border"/>
 
+    <ImageButton
+        android:id="@+id/btnNearby"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_btn_restaurant"
+        android:background="@drawable/circle_border"/>
+
+    <ImageButton
+        android:id="@+id/btnCurrentLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/circle_border"
+        android:src="@drawable/ic_btn_curren"/>
+
+    <ImageButton
+        android:id="@+id/btnDirect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="150dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/circle_border"
+        android:src="@drawable/ic_btn_direct"/>
+
 </RelativeLayout>

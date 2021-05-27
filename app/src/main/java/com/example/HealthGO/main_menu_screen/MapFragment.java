@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -14,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -25,6 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.loader.content.AsyncTaskLoader;
 
 import com.example.HealthGO.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -39,9 +43,20 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentId;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback{
@@ -61,6 +76,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     private static final float DEFAULT_ZOOM = 15f;
     private SearchView mSearchText;
     private SupportMapFragment mapFragment;
+    // Variable that use for getting nearby place
+    private ImageButton btnNearByPlace;
+    private double currentLat = 0;
+    private double currentLong = 0;
+    private ImageButton btnCurrentLocation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -139,8 +159,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
             mSearchText = getView().findViewById(R.id.input_search);
+            btnCurrentLocation = getView().findViewById(R.id.btnCurrentLocation);
+            btnNearByPlace = getView().findViewById(R.id.btnNearby);
             mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map_fragment);
             initMapSearchBar();
+
+            btnCurrentLocation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getDeviceLocation();
+                }
+            });
+
+            btnNearByPlace.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getNearByPlace();
+                }
+            });
+
         }
     }
 
@@ -259,6 +296,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                         if (task.isSuccessful()) {
                             Log.d(TAG, "onComplete: Found location");
                             Location currentLocation = (Location) task.getResult();
+
+                            // save the current location into global variable
+                            currentLat = currentLocation.getLatitude();
+                            currentLong = currentLocation.getLongitude();
+
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My location");
                         } else {
                             Log.d(TAG, "onComplete: Your current location is null");
@@ -280,6 +322,98 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
             mMap.addMarker(options);
         }
         //hideSoftKeyBoard();
+    }
+
+    private void getNearByPlace(){
+
+        //Initialize list of place type
+        String placeType = "restaurant";
+        //initialize list of place name
+        String placeName = "restaurant";
+
+        getDeviceLocation();
+
+
+        String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
+                "?location=" + currentLat + "," + currentLong + // current location
+                "&radius=500" + //nearby radius
+                "&types=" + placeType + // place type
+                "&sensor=true" + //sensor
+                "&key=" + getResources().getString(R.string.GoogleMapKey);
+
+        new PlaceTask().execute(url);
+    }
+
+    private class PlaceTask extends AsyncTask<String,Integer, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            //Initialize data
+            String data = null;
+            try {
+                data = downloadUrl(strings[0]);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            //Execute parser task
+            new ParserTask().execute(s);
+        }
+    }
+
+    private String downloadUrl(String string) throws IOException{
+        URL url = new URL(string);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.connect();
+        InputStream stream = connection.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        StringBuilder builder = new StringBuilder();
+        String line = "";
+        while ((line = reader.readLine()) != null){
+            builder.append(line);
+        }
+        String data = builder.toString();
+        reader.close();
+        return data;
+    }
+
+    private class ParserTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> {
+        @Override
+        protected List<HashMap<String, String>> doInBackground(String... strings) {
+            //Create json parser class
+            JsonParser jsonParser = new JsonParser();
+            List<HashMap<String, String>> mapList = null;
+            JSONObject object = null;
+            try{
+                object = new JSONObject(strings[0]);
+                mapList = jsonParser.parseResult(object);
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
+            return mapList;
+        }
+
+        @Override
+        protected void onPostExecute(List<HashMap<String, String>> hashMaps) {
+            mMap.clear();
+            for(int i = 0; i < hashMaps.size(); i++){
+                HashMap<String, String> hashMapList = hashMaps.get(i);
+
+                double lat = Double.parseDouble(hashMapList.get("lat"));
+                double lng = Double.parseDouble(hashMapList.get("lng"));
+                String name = hashMapList.get("name");
+
+                LatLng latLng = new LatLng(lat, lng);
+                MarkerOptions options = new MarkerOptions();
+                options.position(latLng);
+                options.title(name);
+                mMap.addMarker(options);
+            }
+        }
     }
 
 //    private void hideSoftKeyBoard(){
