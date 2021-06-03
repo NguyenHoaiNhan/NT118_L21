@@ -29,9 +29,12 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+
 import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -47,16 +50,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Locale;
 
-
-import com.example.HealthGO.pedometer.PedometerMainActivity;
 import com.example.HealthGO.pedometer.Database;
 import com.example.HealthGO.R;
+import com.example.HealthGO.pedometer.PedometerMainActivity;
 import com.example.HealthGO.pedometer.SensorListener;
 import com.example.HealthGO.pedometer.util.API23Wrapper;
 import com.example.HealthGO.pedometer.util.API26Wrapper;
-import com.example.HealthGO.util.PlaySettingsWrapper;
+import com.example.HealthGO.pedometer.util.PlaySettingsWrapper;
 
-public class Fragment_Settings extends PreferenceFragment implements OnPreferenceClickListener {
+public class Fragment_Settings extends PreferenceFragment implements Preference.OnPreferenceClickListener {
 
     final static int DEFAULT_GOAL = 10000;
     final static float DEFAULT_STEP_SIZE = Locale.getDefault() == Locale.US ? 2.5f : 75f;
@@ -130,8 +132,22 @@ public class Fragment_Settings extends PreferenceFragment implements OnPreferenc
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        inflater.inflate(R.menu.main, menu);
+    }
 
+    @Override
+    public void onPrepareOptionsMenu(final Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.action_settings).setVisible(false);
+        menu.findItem(R.id.action_split_count).setVisible(false);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        return ((PedometerMainActivity) getActivity()).optionsItemSelected(item);
+    }
 
     @Override
     public boolean onPreferenceClick(final Preference preference) {

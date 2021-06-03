@@ -101,7 +101,7 @@ public class Database extends SQLiteOpenHelper {
      * the previous day, if there is an entry for that date.
      * <p/>
      * This method does nothing if there is already an entry for 'date' - use
-     * {@link #updateSteps} in this case.
+     * {@link #} in this case.
      * <p/>
      * To restore data from a backup, use {@link #insertDayFromBackup}
      *

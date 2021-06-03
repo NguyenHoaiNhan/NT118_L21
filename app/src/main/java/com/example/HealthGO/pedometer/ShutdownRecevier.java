@@ -21,8 +21,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.HealthGO.BuildConfig;
-import  com.example.HealthGO.pedometer.util.Logger;
-import  com.example.HealthGO.pedometer.util.Util;
+import com.example.HealthGO.pedometer.util.Logger;
+import com.example.HealthGO.pedometer.util.Util;
 
 public class ShutdownRecevier extends BroadcastReceiver {
 

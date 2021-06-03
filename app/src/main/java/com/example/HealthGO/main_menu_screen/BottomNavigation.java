@@ -25,29 +25,33 @@ public class BottomNavigation extends AppCompatActivity {
         bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_workout));
         bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.ic_person));
 
+        FoodFragment foodFragment =new FoodFragment();
+        MapFragment mapFragment =new MapFragment();
+        WorkoutFragment workoutFragment=new WorkoutFragment();
+        PersonFragment personFragment=new PersonFragment();
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
                 Fragment fragment = null;
                 switch (item.getId()) {
                     case 1:
-                        fragment = new FoodFragment();
+                        fragment =foodFragment;
                         break;
                     case 2:
-                        fragment = new MapFragment();
+                        fragment = mapFragment;
                         break;
                     case 3:
-                        fragment = new WorkoutFragment();
+                        fragment = workoutFragment;
                         break;
                     case 4:
-                        fragment = new PersonFragment();
+                        fragment = personFragment;
                         break;
                 }
                 loadFragment(fragment);
             }
         });
         bottomNavigation.setCount(1, "10");
-        bottomNavigation.show(2, true);
+        bottomNavigation.show(1, true);
 
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override

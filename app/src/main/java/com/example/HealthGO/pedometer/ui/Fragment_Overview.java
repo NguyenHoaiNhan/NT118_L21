@@ -15,12 +15,14 @@
  */
 package com.example.HealthGO.pedometer.ui;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -38,6 +40,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+//import androidx.fragment.app.Fragment;
+
+import androidx.core.content.ContextCompat;
+
 import org.eazegraph.lib.charts.BarChart;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.BarModel;
@@ -50,9 +56,9 @@ import java.util.List;
 import java.util.Locale;
 
 import com.example.HealthGO.BuildConfig;
-
 import com.example.HealthGO.pedometer.Database;
 import com.example.HealthGO.R;
+import com.example.HealthGO.pedometer.PedometerMainActivity;
 import com.example.HealthGO.pedometer.SensorListener;
 import com.example.HealthGO.pedometer.util.API26Wrapper;
 import com.example.HealthGO.pedometer.util.Logger;
@@ -72,6 +78,11 @@ public class Fragment_Overview extends Fragment implements SensorEventListener {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        if(ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED){
+            //ask for permission
+            requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
+        }
         if (Build.VERSION.SDK_INT >= 26) {
             API26Wrapper.startForegroundService(getActivity(),
                     new Intent(getActivity(), SensorListener.class));
@@ -90,11 +101,11 @@ public class Fragment_Overview extends Fragment implements SensorEventListener {
         pg = (PieChart) v.findViewById(R.id.graph);
 
         // slice for the steps taken today
-        sliceCurrent = new PieModel("", 0, Color.parseColor("#99CC00"));
+        sliceCurrent = new PieModel("", 0, Color.parseColor("#F0A40C"));
         pg.addPieSlice(sliceCurrent);
 
         // slice for the "missing" steps until reaching the goal
-        sliceGoal = new PieModel("", Fragment_Settings.DEFAULT_GOAL, Color.parseColor("#FF5B00"));
+        sliceGoal = new PieModel("", Fragment_Settings.DEFAULT_GOAL, Color.parseColor("#F0A40C"));
         pg.addPieSlice(sliceGoal);
 
         pg.setOnClickListener(new OnClickListener() {
@@ -114,7 +125,7 @@ public class Fragment_Overview extends Fragment implements SensorEventListener {
     @Override
     public void onResume() {
         super.onResume();
-
+//        getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
 
         Database db = Database.getInstance(getActivity());
 
@@ -197,8 +208,22 @@ public class Fragment_Overview extends Fragment implements SensorEventListener {
         db.close();
     }
 
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        inflater.inflate(R.menu.main, menu);
+    }
 
-
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_split_count:
+                Dialog_Split.getDialog(getActivity(),
+                        total_start + Math.max(todayOffset + since_boot, 0)).show();
+                return true;
+            default:
+                return ((PedometerMainActivity) getActivity()).optionsItemSelected(item);
+        }
+    }
 
     @Override
     public void onAccuracyChanged(final Sensor sensor, int accuracy) {

@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.HealthGO">
 
 
-    <uses-feature
-        android:name="android.hardware.sensor.stepcounter"
+    <uses-feature android:name="android.hardware.Sensor.TYPE_STEP_DETECTOR"/>
+    <uses-feature android:name="android.hardware.Sensor.TYPE_STEP_COUNTER"
         android:required="true"/>
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.flash"/>
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -26,7 +27,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HealthGO">
+        android:theme="@style/Theme.HealthGO"
+        tools:replace="label">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,32 +40,32 @@
 
         <activity
             android:name=".pedometer.PedometerMainActivity"
-            android:label="@string/app_name" android:windowSoftInputMode="stateHidden"
-            android:parentActivityName="com.example.HealthGO.main_menu_screen.BottomNavigation"/>
+            android:launchMode="singleTask"
+            android:label="@string/app_name" />
 
         <activity
             android:name=".heartrate.HeartRateActivity"
-            android:label="@string/app_name" android:windowSoftInputMode="stateHidden"
-            android:parentActivityName="com.example.HealthGO.main_menu_screen.BottomNavigation"/>
+            android:label="@string/app_name" />
 
         <activity
             android:name=".gym.GYMActivity"
-            android:label="@string/app_name" android:windowSoftInputMode="stateHidden"
-            android:parentActivityName="com.example.HealthGO.main_menu_screen.BottomNavigation"/>
+            android:label="@string/app_name"/>
+
 
         <receiver android:name=".pedometer.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-
         <receiver android:name=".pedometer.AppUpdatedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
             </intent-filter>
         </receiver>
 
-        <service android:name=".pedometer.SensorListener"/>
+        <service
+            android:name=".pedometer.SensorListener"/>
+
         <service
             android:name=".pedometer.widget.DashClock"
             android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">
@@ -102,6 +104,8 @@
 
         <service android:name=".pedometer.widget.WidgetUpdateService" android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
+
+
     </application>
 
 </manifest>

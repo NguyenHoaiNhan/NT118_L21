@@ -24,15 +24,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-/*
-import com.example.HealthGO.library.colorpicker.ColorPickerDialog;
-import com.example.HealthGO.lib.colorpicker.ColorPreviewButton;
-*/
-
-import com.example.HealthGO.R;
 
 import de.j4velin.lib.colorpicker.ColorPickerDialog;
 import de.j4velin.lib.colorpicker.ColorPreviewButton;
+
+
+import com.example.HealthGO.R;
 
 public class WidgetConfig extends Activity implements OnClickListener {
 

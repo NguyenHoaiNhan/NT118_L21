@@ -38,8 +38,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import com.example.HealthGO.BuildConfig;
-
 import com.example.HealthGO.R;
+import com.example.HealthGO.pedometer.PedometerMainActivity;
 import com.example.HealthGO.pedometer.util.API23Wrapper;
 import com.example.HealthGO.pedometer.util.API26Wrapper;
 import com.example.HealthGO.pedometer.util.Logger;

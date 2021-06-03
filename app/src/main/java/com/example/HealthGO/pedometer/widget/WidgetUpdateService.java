@@ -20,11 +20,11 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-//import android.support.annotation.NonNull;
-//import android.support.v4.app.JobIntentService;
+
 
 import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
+
 
 import com.example.HealthGO.pedometer.Database;
 import com.example.HealthGO.pedometer.util.Util;
