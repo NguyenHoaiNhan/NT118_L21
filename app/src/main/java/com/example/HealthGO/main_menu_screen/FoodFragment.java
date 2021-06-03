@@ -1,5 +1,7 @@
 package com.example.HealthGO.main_menu_screen;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.solver.state.State;
@@ -28,7 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FoodFragment extends Fragment {
+public class FoodFragment extends Fragment implements RecyclerViewClickInterface {
 
     private RecyclerView recyclerView;
 
@@ -81,19 +84,32 @@ public class FoodFragment extends Fragment {
                             String Title = document.getString("Title");
                             String Description = document.getString("Brief description");
                             String URL = document.getString("URL");
+                            String Source = document.getString("Source");
 
-                            list.add(new FoodCard(Title, Description, URL));
+                            list.add(new FoodCard(Title, Description, URL, Source));
                         }
 
                         LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(view.getContext(), R.anim.anim_left_to_right);
                         recyclerView.setLayoutAnimation(layoutAnimationController);
 
-                        FoodAdapter foodAdapter = new FoodAdapter(view.getContext(), list);
+                        FoodAdapter foodAdapter = new FoodAdapter(view.getContext(), list, this);
                         recyclerView.setAdapter(foodAdapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                     } else {
                         Log.e("FIRE STORE", "Error getting documents: ", task.getException());
                     }
                 });
+    }
+
+    @Override
+    public void onItemClick(int position) {
+//        Toast.makeText(getContext(), "You click " + list.get(position).getSource(), Toast.LENGTH_SHORT).show();
+        Intent openLinkIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(list.get(position).getSource()));
+        startActivity(openLinkIntent);
+    }
+
+    @Override
+    public void onLongItemClick(int position) {
+        Toast.makeText(getContext(), "You long click " + position, Toast.LENGTH_SHORT).show();
     }
 }

@@ -18,20 +18,34 @@ import java.util.List;
 import java.util.zip.Inflater;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
-
     Context context;
     List<FoodCard> list;
+    private RecyclerViewClickInterface recyclerViewClickInterface;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView Title;
         private final TextView Description;
         private final ImageView imageView;
 
-        public ViewHolder(View view) {
-            super(view);
+        public ViewHolder(View itemView) {
+            super(itemView);
             Title = itemView.findViewById(R.id.Title);
             Description = itemView.findViewById(R.id.Description);
             imageView = itemView.findViewById(R.id.FoodImage);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    recyclerViewClickInterface.onItemClick(getAdapterPosition());
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    recyclerViewClickInterface.onLongItemClick(getAdapterPosition());
+                    return false;
+                }
+            });
         }
 
         public TextView getTitle() {return Title;}
@@ -39,9 +53,10 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
         public ImageView getImageView() {return imageView;}
     }
 
-    public FoodAdapter(Context context, List<FoodCard> list) {
+    public FoodAdapter(Context context, List<FoodCard> list, RecyclerViewClickInterface recyclerViewClickInterface) {
         this.context = context;
         this.list = list;
+        this.recyclerViewClickInterface = recyclerViewClickInterface;
     }
 
     @NonNull
@@ -65,4 +80,17 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
     public int getItemCount() {
         return list.size();
     }
+
+//    class ViewHolder extends RecyclerView.ViewHolder{
+//        ImageView iv_view;
+//        TextView tv_title, tv_des;
+//
+//        public ViewHolder(View itemView){
+//            super(itemView);
+//
+//            iv_view = itemView.findViewById(R.id.FoodImage);
+//            tv_title = itemView.findViewById(R.id.Title);
+//            tv_des = itemView.findViewById(R.id.Description);
+//        }
+//    }
 }
