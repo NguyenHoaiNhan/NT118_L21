@@ -74,7 +74,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private static final float DEFAULT_ZOOM = 15f;
-    private SearchView mSearchText;
+    private EditText mSearchText;
     private SupportMapFragment mapFragment;
     // Variable that use for getting nearby place
     private ImageButton btnNearByPlace;
@@ -209,33 +209,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 
     private void initMapSearchBar(){
         Log.d(TAG, "initMapSearchBar: initializing");
-//        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                if(actionId == EditorInfo.IME_ACTION_SEARCH
-//                || actionId == EditorInfo.IME_ACTION_DONE
-//                || event.getAction() == KeyEvent.ACTION_DOWN
-//                || event.getAction() == KeyEvent.KEYCODE_ENTER){
-//                    //Execute our method for searching
-//                    geoLocate();
-//                }
-//                return false;
-//            }
-//        });
-        mSearchText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                String location = mSearchText.getQuery().toString();
-                List <Address> addressList = null;
-                if(location != null || !location.equals("")){
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH
+                || actionId == EditorInfo.IME_ACTION_DONE
+                || event.getAction() == KeyEvent.ACTION_DOWN
+                || event.getAction() == KeyEvent.KEYCODE_ENTER){
+                    //Execute our method for searching
                     geoLocate();
                 }
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
+                return true;
             }
         });
         //hideSoftKeyBoard();
@@ -243,20 +227,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 
     private void geoLocate(){
         Log.d(TAG, "geoLocate: geolocating");
-        String searchString = mSearchText.getQuery().toString();
-        List<Address> list = null;
 
-        if(searchString != null || !searchString.equals("")){
-            Geocoder geocoder = new Geocoder(getContext());
-            try{
-                list = geocoder.getFromLocationName(searchString, 1);
-            } catch (IOException e){
-                Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
-            }
+        String searchString = mSearchText.getText().toString();
+        Geocoder geocoder = new Geocoder(getContext());
+        List<Address> list = new ArrayList<>();
+        try{
+            list = geocoder.getFromLocationName(searchString, 1);
+        } catch (IOException e){
+            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
+        }
+        if(list.size() > 0){
             Address address = list.get(0);
             Log.d(TAG, "geoLocate: found a location: " + address.toString());
             moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
-            mapFragment.getMapAsync(MapFragment.this);
         }
     }
 
@@ -316,11 +299,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 
     private void moveCamera(LatLng latLng, float zoom, String title) {
         Log.d(TAG, "moveCamera: Moving camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
+
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-        if(title.equals("My location")){
-            MarkerOptions options = new MarkerOptions().position(latLng).title(title);
-            mMap.addMarker(options);
-        }
+
+
+        MarkerOptions options = new MarkerOptions()
+                .position(latLng)
+                .title(title);
+        mMap.addMarker(options);
         //hideSoftKeyBoard();
     }
 
