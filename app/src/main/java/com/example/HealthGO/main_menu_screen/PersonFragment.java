@@ -75,6 +75,15 @@ public class PersonFragment extends Fragment {
         init(view);
         animation();
         SignOut(view);
+
+        Report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ReportActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+
         return view;
     }
 
