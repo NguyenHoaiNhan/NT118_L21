@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="5dp"
-                tools:context="com.bongdungyeuem27.myhealth.PedometerMainActivity">
+                tools:context=".pedometer.PedometerMainActivity">
 
     <org.eazegraph.lib.charts.PieChart
         xmlns:eaze="http://schemas.android.com/apk/res-auto"

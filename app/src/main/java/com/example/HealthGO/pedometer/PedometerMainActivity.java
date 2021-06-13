@@ -35,9 +35,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.PermissionChecker;
-import androidx.fragment.app.FragmentActivity;
+
 
 import com.example.HealthGO.BuildConfig;
 import com.example.HealthGO.R;

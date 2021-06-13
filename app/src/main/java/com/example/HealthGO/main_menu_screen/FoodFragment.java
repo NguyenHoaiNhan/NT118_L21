@@ -73,6 +73,12 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        list.clear();
+    }
+
     private void init(View view) {
         recyclerView = view.findViewById(R.id.recyclerView);
         db = FirebaseFirestore.getInstance();
@@ -103,7 +109,6 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
 
     @Override
     public void onItemClick(int position) {
-//        Toast.makeText(getContext(), "You click " + list.get(position).getSource(), Toast.LENGTH_SHORT).show();
         Intent openLinkIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(list.get(position).getSource()));
         startActivity(openLinkIntent);
     }
