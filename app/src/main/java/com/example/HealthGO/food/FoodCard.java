@@ -1,4 +1,4 @@
-package com.example.HealthGO.main_menu_screen;
+package com.example.HealthGO.food;
 
 import android.widget.ImageView;
 
@@ -11,11 +11,17 @@ public class FoodCard {
     private String Source;
 
     public FoodCard(){}
+
     public FoodCard(String Title, String Description, String ImageSource, String source) {
         this.Title = Title;
         this.Description = Description;
         this.ImageSource = ImageSource;
         this.Source = source;
+    }
+    public FoodCard(String Title, String Description, String ImageSource) {
+        this.Title = Title;
+        this.Description = Description;
+        this.ImageSource = ImageSource;
     }
 
     public String getTitle() {

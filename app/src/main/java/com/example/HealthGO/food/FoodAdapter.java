@@ -1,4 +1,4 @@
-package com.example.HealthGO.main_menu_screen;
+package com.example.HealthGO.food;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.HealthGO.R;
+import com.example.HealthGO.main_menu_screen.RecyclerViewClickInterface;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
     Context context;
@@ -53,6 +53,10 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
         public ImageView getImageView() {return imageView;}
     }
 
+    public FoodAdapter(ArrayList<FoodCard> ls){
+        this.list = ls;
+    }
+
     public FoodAdapter(Context context, List<FoodCard> list, RecyclerViewClickInterface recyclerViewClickInterface) {
         this.context = context;
         this.list = list;
@@ -81,16 +85,4 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
         return list.size();
     }
 
-//    class ViewHolder extends RecyclerView.ViewHolder{
-//        ImageView iv_view;
-//        TextView tv_title, tv_des;
-//
-//        public ViewHolder(View itemView){
-//            super(itemView);
-//
-//            iv_view = itemView.findViewById(R.id.FoodImage);
-//            tv_title = itemView.findViewById(R.id.Title);
-//            tv_des = itemView.findViewById(R.id.Description);
-//        }
-//    }
 }

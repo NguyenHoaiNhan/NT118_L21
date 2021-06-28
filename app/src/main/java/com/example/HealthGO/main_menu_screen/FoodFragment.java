@@ -7,26 +7,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.EditText;
+import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.solver.state.State;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.HealthGO.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.example.HealthGO.food.FoodAdapter;
+import com.example.HealthGO.food.FoodCard;
+import com.example.HealthGO.food.SearchFoodActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +33,7 @@ import java.util.List;
 public class FoodFragment extends Fragment implements RecyclerViewClickInterface {
 
     private RecyclerView recyclerView;
+    private TextView et_require_searching;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -81,6 +81,17 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
 
     private void init(View view) {
         recyclerView = view.findViewById(R.id.recyclerView);
+        et_require_searching = view.findViewById(R.id.et_require_searching);
+
+        et_require_searching.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SearchFoodActivity.class);
+
+                startActivity(intent);
+            }
+        });
+
         db = FirebaseFirestore.getInstance();
         db.collection("food")
                 .get()
@@ -89,7 +100,9 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String Title = document.getString("Title");
                             String Description = document.getString("Brief description");
+                            // URL => Image of the paper
                             String URL = document.getString("URL");
+                            //Source => URL of the paper
                             String Source = document.getString("Source");
 
                             list.add(new FoodCard(Title, Description, URL, Source));

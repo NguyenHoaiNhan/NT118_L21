@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main_menu_screen.FoodFragment"
-    android:weightSum="12"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="12">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="#DA0037">
+
         <RelativeLayout
-            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/square_bound_edge">
+            android:elevation="10dp"
+            android:background="@drawable/square_bound_edge"
+            android:id="@+id/relLayout1">
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
@@ -27,28 +27,24 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/ic_magnify"/>
-            <TextView
-                android:gravity="center_vertical"
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@id/ic_magnify"
                 android:layout_centerVertical="true"
                 android:textSize="15sp"
                 android:textColor="@color/black"
-                android:id="@+id/et_require_searching"
+                android:id="@+id/et_search_food"
                 android:background="@null"
-                android:hint="Bạn đang tìm?"
+                android:hint="Bạn đang tìm nơi nào thế?"
                 android:textColorHint="#8C8383"
                 android:paddingLeft="10dp"
                 android:imeOptions="actionSearch"
                 android:singleLine="true"/>
         </RelativeLayout>
     </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/rv_suggestion_food"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="12"/>
-
+        android:layout_height="wrap_content"/>
 </LinearLayout>
