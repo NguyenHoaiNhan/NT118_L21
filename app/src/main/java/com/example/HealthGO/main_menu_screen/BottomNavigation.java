@@ -69,7 +69,7 @@ public class BottomNavigation extends AppCompatActivity {
         });
     }
 
-    private void loadFragment(Fragment fragment) {
+    public void loadFragment(Fragment fragment) {
         //replace frame_layout in activity_bottom_navigation with current fragment
         getSupportFragmentManager()
                 .beginTransaction()

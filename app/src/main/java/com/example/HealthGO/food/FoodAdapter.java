@@ -24,14 +24,14 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView Title;
-        private final TextView Description;
+        private final TextView Rating_Point;
         private final ImageView imageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            Title = itemView.findViewById(R.id.Title);
-            Description = itemView.findViewById(R.id.Description);
-            imageView = itemView.findViewById(R.id.FoodImage);
+            Title = itemView.findViewById(R.id.tv_food_name);
+            Rating_Point = itemView.findViewById(R.id.tv_rate_point);
+            imageView = itemView.findViewById(R.id.iv_icon_food);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -39,6 +39,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
                     recyclerViewClickInterface.onItemClick(getAdapterPosition());
                 }
             });
+
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -49,7 +50,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
         }
 
         public TextView getTitle() {return Title;}
-        public TextView getDescription() {return Description;}
+        public TextView getRating_Point() {return Rating_Point;}
         public ImageView getImageView() {return imageView;}
     }
 
@@ -74,7 +75,12 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.getTitle().setText(list.get(position).getTitle());
-        holder.getDescription().setText(list.get(position).getDescription());
+
+        double rating =  list.get(position).getRating();
+        rating = Math.round(rating * 10)/10;
+        String st_rating = String.valueOf(rating);
+        holder.getRating_Point().setText(st_rating + "/10");
+
         Glide.with(context)
                 .load(list.get(position).getImageSource())
                 .into(holder.getImageView());

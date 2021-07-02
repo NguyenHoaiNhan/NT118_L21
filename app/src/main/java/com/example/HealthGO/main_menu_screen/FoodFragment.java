@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,7 +46,7 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
     private List<FoodCard> list = new ArrayList<>();
 
     public FoodFragment() {
-        // Required empty public constructor
+
     }
 
     public static FoodFragment newInstance(String param1, String param2) {
@@ -87,7 +89,6 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchFoodActivity.class);
-
                 startActivity(intent);
             }
         });
@@ -99,13 +100,13 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String Title = document.getString("Title");
-                            String Description = document.getString("Brief description");
+                            double Rating = document.getDouble("Rating");
                             // URL => Image of the paper
                             String URL = document.getString("URL");
                             //Source => URL of the paper
                             String Source = document.getString("Source");
 
-                            list.add(new FoodCard(Title, Description, URL, Source));
+                            list.add(new FoodCard(Title, URL, Source, Rating));
                         }
 
                         LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(view.getContext(), R.anim.anim_left_to_right);
@@ -113,7 +114,11 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
 
                         FoodAdapter foodAdapter = new FoodAdapter(view.getContext(), list, this);
                         recyclerView.setAdapter(foodAdapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+                        recyclerView.setLayoutManager(gridLayoutManager);
+
+
                     } else {
                         Log.e("FIRE STORE", "Error getting documents: ", task.getException());
                     }
@@ -128,6 +133,6 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
 
     @Override
     public void onLongItemClick(int position) {
-        Toast.makeText(getContext(), "You long click " + position, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "You long click " + position, Toast.LENGTH_SHORT).show();
     }
 }

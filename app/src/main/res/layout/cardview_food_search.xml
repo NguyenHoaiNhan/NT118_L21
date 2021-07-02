@@ -7,7 +7,7 @@
     android:layout_marginTop="10dp">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/foodcardview"
+        android:id="@+id/foodcardview_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

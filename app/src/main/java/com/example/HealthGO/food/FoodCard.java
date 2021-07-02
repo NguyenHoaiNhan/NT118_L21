@@ -9,14 +9,15 @@ public class FoodCard {
     private String Description;
     private String ImageSource;
     private String Source;
+    private double Rating;
 
     public FoodCard(){}
 
-    public FoodCard(String Title, String Description, String ImageSource, String source) {
+    public FoodCard(String Title, String ImageSource, String source, double Rating) {
         this.Title = Title;
-        this.Description = Description;
         this.ImageSource = ImageSource;
         this.Source = source;
+        this.Rating = Rating;
     }
     public FoodCard(String Title, String Description, String ImageSource) {
         this.Title = Title;
@@ -38,5 +39,9 @@ public class FoodCard {
 
     public String getSource(){
         return this.Source;
+    }
+
+    public double getRating(){
+        return this.Rating;
     }
 }

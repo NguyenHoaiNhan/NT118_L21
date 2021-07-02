@@ -1,9 +1,17 @@
 package com.example.HealthGO.food;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,7 +22,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.HealthGO.MainActivity;
 import com.example.HealthGO.R;
+import com.example.HealthGO.main_menu_screen.BottomNavigation;
+import com.example.HealthGO.main_menu_screen.FoodFragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,21 +50,27 @@ public class SearchFoodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_food);
         initComponents();
 
-        etInputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || event.getAction() == KeyEvent.ACTION_DOWN
-                        || event.getAction() == KeyEvent.KEYCODE_ENTER){
+        findFood("");
 
-                    String input = etInputSearch.getText().toString();
-                    findFood(input);
-                }
-                return true;
+        etInputSearch.requestFocus();
+
+        etInputSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String input = etInputSearch.getText().toString();
+                findFood(input);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
-
     }
 
     public void initComponents(){
@@ -86,6 +103,7 @@ public class SearchFoodActivity extends AppCompatActivity {
                             if(food.getTitle().toLowerCase().contains(name.toLowerCase())){
                                 suggestionList.add(food);
                             }
+
                         }
 
                         showResult(suggestionList);
@@ -105,9 +123,6 @@ public class SearchFoodActivity extends AppCompatActivity {
 
         adapter = new FoodSuggestionAdapter(SearchFoodActivity.this, ls);
         rv_suggestion_food.setAdapter(adapter);
-
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        rv_suggestion_food.addItemDecoration(itemDecoration);
 
         Log.d(TAG, "showResult: Successful");
     }

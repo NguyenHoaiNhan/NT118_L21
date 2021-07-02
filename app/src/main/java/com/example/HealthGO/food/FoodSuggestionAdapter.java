@@ -28,7 +28,7 @@ public class FoodSuggestionAdapter extends RecyclerView.Adapter<FoodSuggestionAd
 
     @Override
     public FoodSuggestionViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_food, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_food_search, parent, false);
         return new FoodSuggestionViewHolder(view);
     }
 
