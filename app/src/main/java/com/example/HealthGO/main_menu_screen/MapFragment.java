@@ -174,7 +174,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
             btnNearByPlace.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getNearByPlace();
+//                    getNearByPlace();
+                    showNearByRestaurant();
                 }
             });
 
@@ -243,6 +244,34 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         }
     }
 
+    private void showNearByRestaurant(){
+        ArrayList<LatLng> place = new ArrayList<>();
+        LatLng quan1 = new LatLng(11.39, 106.23);
+        LatLng quan2 = new LatLng(11.386, 106.23);
+        LatLng quan3 = new LatLng(11.391, 106.23);
+        place.add(quan1);
+        place.add(quan2);
+        place.add(quan3);
+
+        for(int i = 0; i <= 2; i++){
+            mMap.addMarker(new MarkerOptions().position(place.get(i)).title("Quan " + i));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(place.get(i)));
+        }
+
+//        final double lat = 11.39;
+//        final double longi = 106.23;
+//        LatLng pos = new LatLng(lat, longi);
+//        mMap.addMarker(new MarkerOptions().position(pos).title("test place"));
+//        mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
+
+//        MarkerOptions markerOptions = new MarkerOptions();
+//        markerOptions.position(pos);
+//        markerOptions.title("Test place");
+        //moveCamera(new LatLng(lat, longi), DEFAULT_ZOOM, "Test place");
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionsResult: Called");
@@ -283,8 +312,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                             // save the current location into global variable
                             currentLat = currentLocation.getLatitude();
                             currentLong = currentLocation.getLongitude();
-
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My location");
+                            moveCamera(new LatLng(currentLat, currentLong), DEFAULT_ZOOM, "My location");
+                            showNearByRestaurant();
+//                            Toast.makeText(getContext(), "lat:" + currentLat + "\tLong:" + currentLong, Toast.LENGTH_LONG).show();
+//                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My location");
                         } else {
                             Log.d(TAG, "onComplete: Your current location is null");
                             Toast.makeText(getActivity(), "Unable to get your current location", Toast.LENGTH_LONG).show();
