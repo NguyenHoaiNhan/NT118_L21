@@ -2,6 +2,7 @@ package com.example.HealthGO.main_menu_screen;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,13 +14,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,10 +26,13 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.loader.content.AsyncTaskLoader;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.HealthGO.R;
+import com.example.HealthGO.food.FoodAdapter;
+import com.example.HealthGO.food.FoodCard;
+import com.example.HealthGO.map.Restaurant;
+import com.example.HealthGO.map.ShowDetailRestaurant;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -40,12 +42,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentId;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -60,7 +63,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback{
-
+    // lat 11.388302, long 106.2336162
 
     // Variable that use for checking service
     private static final String TAG = "MapFragment";
@@ -81,6 +84,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     private double currentLat = 0;
     private double currentLong = 0;
     private ImageButton btnCurrentLocation;
+    private FirebaseFirestore db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -179,6 +183,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                 }
             });
 
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    String title = marker.getTitle();
+                    Intent intent = new Intent(getActivity(), ShowDetailRestaurant.class);
+                    startActivity(intent);
+                    return false;
+                }
+            });
         }
     }
 
@@ -245,19 +258,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     }
 
     private void showNearByRestaurant(){
-        ArrayList<LatLng> place = new ArrayList<>();
-        LatLng quan1 = new LatLng(11.39, 106.23);
-        LatLng quan2 = new LatLng(11.386, 106.23);
-        LatLng quan3 = new LatLng(11.391, 106.23);
-        place.add(quan1);
-        place.add(quan2);
-        place.add(quan3);
-
-        for(int i = 0; i <= 2; i++){
-            mMap.addMarker(new MarkerOptions().position(place.get(i)).title("Quan " + i));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(place.get(i)));
-        }
+//        ArrayList<LatLng> place = new ArrayList<>();
+//        LatLng quan1 = new LatLng(11.39, 106.23);
+//        LatLng quan2 = new LatLng(11.386, 106.23);
+//        LatLng quan3 = new LatLng(11.391, 106.23);
+//        place.add(quan1);
+//        place.add(quan2);
+//        place.add(quan3);
+//
+//        for(int i = 0; i <= 2; i++){
+//            mMap.addMarker(new MarkerOptions().position(place.get(i)).title("Quan " + i));
+//            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+//            mMap.moveCamera(CameraUpdateFactory.newLatLng(place.get(i)));
+//        }
 
 //        final double lat = 11.39;
 //        final double longi = 106.23;
@@ -270,6 +283,45 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 //        markerOptions.position(pos);
 //        markerOptions.title("Test place");
         //moveCamera(new LatLng(lat, longi), DEFAULT_ZOOM, "Test place");
+
+        getDeviceLocation();
+        double lat_rad= (currentLat*3.14)/180;
+        double longi_rad = (currentLong*3.14)/180;
+
+        List<Restaurant> list = new ArrayList<>();
+        db = FirebaseFirestore.getInstance();
+        db.collection("restaurant")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            String name = document.getString("name");
+                            double des_lat = document.getDouble("lat");
+                            double des_longi = document.getDouble("long");
+
+                            double des_lat_rad = (des_lat*3.14)/180;
+                            double des_longi_rad = (des_longi*3.14)/180;
+
+                            double distance = 6378 * Math.acos((Math.sin(lat_rad) * Math.sin(des_lat_rad)) + Math.cos(lat_rad) * Math.cos(des_lat_rad) * Math.cos(des_longi_rad - longi_rad));
+
+                            if(distance < 5){
+                                list.add(new Restaurant(name, des_lat, des_longi));
+                            }
+                        }
+
+                        for(int i = 0; i < list.size(); i++){
+                            LatLng place = new LatLng(list.get(i).getLat(), list.get(i).getLongi());
+
+                            mMap.addMarker(new MarkerOptions().position(place).title(list.get(i).getName()));
+                            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+//                            mMap.moveCamera(CameraUpdateFactory.newLatLng(place));
+                        }
+
+                    } else {
+                        Log.e("FIRE STORE", "Error getting documents: ", task.getException());
+                    }
+                });
     }
 
     @Override
@@ -313,7 +365,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                             currentLat = currentLocation.getLatitude();
                             currentLong = currentLocation.getLongitude();
                             moveCamera(new LatLng(currentLat, currentLong), DEFAULT_ZOOM, "My location");
-                            showNearByRestaurant();
+//                            showNearByRestaurant();
 //                            Toast.makeText(getContext(), "lat:" + currentLat + "\tLong:" + currentLong, Toast.LENGTH_LONG).show();
 //                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My location");
                         } else {

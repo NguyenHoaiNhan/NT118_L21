@@ -116,6 +116,9 @@
 
         <activity android:name=".food.SearchFoodActivity">
         </activity>
+
+        <activity android:name=".map.ShowDetailRestaurant"/>
+
     </application>
 
 </manifest>
