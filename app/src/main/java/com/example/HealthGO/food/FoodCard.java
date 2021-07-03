@@ -19,10 +19,11 @@ public class FoodCard {
         this.Source = source;
         this.Rating = Rating;
     }
-    public FoodCard(String Title, String Description, String ImageSource) {
+    public FoodCard(String Title, String Description, String ImageSource, String source) {
         this.Title = Title;
         this.Description = Description;
         this.ImageSource = ImageSource;
+        this.Source = source;
     }
 
     public String getTitle() {

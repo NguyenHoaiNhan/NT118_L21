@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,6 +27,7 @@ import com.example.HealthGO.MainActivity;
 import com.example.HealthGO.R;
 import com.example.HealthGO.main_menu_screen.BottomNavigation;
 import com.example.HealthGO.main_menu_screen.FoodFragment;
+import com.example.HealthGO.main_menu_screen.RecyclerViewClickInterface;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,7 +36,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchFoodActivity extends AppCompatActivity {
+public class SearchFoodActivity extends AppCompatActivity implements RecyclerViewClickInterface{
 
     public static final String TAG = "SearchFoodActivity";
     private EditText etInputSearch;
@@ -71,6 +73,8 @@ public class SearchFoodActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
     public void initComponents(){
@@ -95,7 +99,8 @@ public class SearchFoodActivity extends AppCompatActivity {
                             String Title = document.getString("Title");
                             String Description = document.getString("Brief description");
                             String ImgUrl = document.getString("URL");
-                            originList.add(new FoodCard(Title, Description, ImgUrl));
+                            String Source = document.getString("Source");
+                            originList.add(new FoodCard(Title, Description, ImgUrl, Source));
                         }
 
                         suggestionList.clear();
@@ -121,9 +126,20 @@ public class SearchFoodActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rv_suggestion_food.setLayoutManager(linearLayoutManager);
 
-        adapter = new FoodSuggestionAdapter(SearchFoodActivity.this, ls);
+        adapter = new FoodSuggestionAdapter(SearchFoodActivity.this, ls, this);
         rv_suggestion_food.setAdapter(adapter);
 
         Log.d(TAG, "showResult: Successful");
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent openLinkIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(suggestionList.get(position).getSource()));
+        startActivity(openLinkIntent);
+    }
+
+    @Override
+    public void onLongItemClick(int position) {
+
     }
 }

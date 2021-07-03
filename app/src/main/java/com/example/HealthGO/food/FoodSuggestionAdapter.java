@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.HealthGO.R;
+import com.example.HealthGO.main_menu_screen.RecyclerViewClickInterface;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,10 +21,12 @@ import java.util.List;
 public class FoodSuggestionAdapter extends RecyclerView.Adapter<FoodSuggestionAdapter.FoodSuggestionViewHolder> {
     private Context context;
     private List<FoodCard> suggestionList;
+    private RecyclerViewClickInterface recyclerViewClickInterface;
 
-    public FoodSuggestionAdapter(Context context, List<FoodCard> suggestionList) {
+    public FoodSuggestionAdapter(Context context, List<FoodCard> suggestionList, RecyclerViewClickInterface recyclerViewClickInterface) {
         this.context = context;
         this.suggestionList = suggestionList;
+        this.recyclerViewClickInterface = recyclerViewClickInterface;
     }
 
     @Override
@@ -49,7 +52,7 @@ public class FoodSuggestionAdapter extends RecyclerView.Adapter<FoodSuggestionAd
         return 0;
     }
 
-    class FoodSuggestionViewHolder extends RecyclerView.ViewHolder{
+    public class FoodSuggestionViewHolder extends RecyclerView.ViewHolder{
         private final TextView Title;
         private final TextView Description;
         private final ImageView imageView;
@@ -59,6 +62,21 @@ public class FoodSuggestionAdapter extends RecyclerView.Adapter<FoodSuggestionAd
             Title = itemView.findViewById(R.id.Title);
             Description = itemView.findViewById(R.id.Description);
             imageView = itemView.findViewById(R.id.FoodImage);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    recyclerViewClickInterface.onItemClick(getAdapterPosition());
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    recyclerViewClickInterface.onLongItemClick(getAdapterPosition());
+                    return false;
+                }
+            });
         }
 
         public TextView getTitle() {return Title;}
