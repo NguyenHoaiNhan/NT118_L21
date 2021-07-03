@@ -10,9 +10,9 @@ public class Restaurant {
     public double lat;
     public double longi;
     List<String> lsDish;
-    List<Integer> lsCost;
+    List<String> lsCost;
 
-    public Restaurant(String name, String phone, String servetime, double lat, double longi, List<String> lsDish, List<Integer> lsCost) {
+    public Restaurant(String name, String phone, String servetime, double lat, double longi, List<String> lsDish, List<String> lsCost) {
         this.name = name;
         this.phone = phone;
         this.servetime = servetime;
@@ -26,6 +26,10 @@ public class Restaurant {
         this.name = name;
         this.lat = lat;
         this.longi = longi;
+    }
+
+    public int getListFoodSize(){
+        return lsDish.size();
     }
 
     public String getName() {
@@ -76,11 +80,11 @@ public class Restaurant {
         this.lsDish = lsDish;
     }
 
-    public List<Integer> getLsCost() {
+    public List<String> getLsCost() {
         return lsCost;
     }
 
-    public void setLsCost(List<Integer> lsCost) {
+    public void setLsCost(List<String> lsCost) {
         this.lsCost = lsCost;
     }
 

@@ -11,69 +11,15 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         tools:context=".main_menu_screen.MapFragment"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:elevation="10dp"
-        android:background="@drawable/border"
-        android:id="@+id/relLayout1">
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:id="@+id/ic_magnify"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_magnify"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@id/ic_magnify"
-            android:layout_centerVertical="true"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:id="@+id/input_search"
-            android:background="@null"
-            android:hint="Bạn đang tìm nơi nào thế?"
-            android:textColorHint="#8C8383"
-            android:paddingLeft="10dp"
-            android:imeOptions="actionSearch"
-            android:singleLine="true"/>
-    </RelativeLayout>
-
     <ImageButton
         android:id="@+id/btnNearby"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:layout_marginRight="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_btn_restaurant"
-        android:background="@drawable/circle_border"/>
-
-    <ImageButton
-        android:id="@+id/btnCurrentLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginBottom="367dp"
         android:background="@drawable/circle_border"
-        android:src="@drawable/ic_btn_curren"/>
-
-    <ImageButton
-        android:id="@+id/btnDirect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="150dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/circle_border"
-        android:src="@drawable/ic_btn_direct"/>
+        android:src="@drawable/ic_btn_restaurant"/>
 
 </RelativeLayout>

@@ -162,23 +162,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
             }
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
-            mSearchText = getView().findViewById(R.id.input_search);
-            btnCurrentLocation = getView().findViewById(R.id.btnCurrentLocation);
+//            mSearchText = getView().findViewById(R.id.input_search);
+//            btnCurrentLocation = getView().findViewById(R.id.btnCurrentLocation);
             btnNearByPlace = getView().findViewById(R.id.btnNearby);
             mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map_fragment);
-            initMapSearchBar();
+//            initMapSearchBar();
 
-            btnCurrentLocation.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getDeviceLocation();
-                }
-            });
+//            btnCurrentLocation.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    getDeviceLocation();
+//                }
+//            });
 
             btnNearByPlace.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    getNearByPlace();
                     showNearByRestaurant();
                 }
             });
@@ -187,8 +186,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                 @Override
                 public boolean onMarkerClick(Marker marker) {
                     String title = marker.getTitle();
-                    Intent intent = new Intent(getActivity(), ShowDetailRestaurant.class);
-                    startActivity(intent);
+                    if(title.equals("My location")){
+
+                    }
+                    else{
+                        Intent intent = new Intent(getActivity(), ShowDetailRestaurant.class);
+                        intent.putExtra("title", title);
+                        startActivity(intent);
+                    }
                     return false;
                 }
             });
@@ -221,68 +226,47 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         }
     }
 
-    private void initMapSearchBar(){
-        Log.d(TAG, "initMapSearchBar: initializing");
-        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH
-                || actionId == EditorInfo.IME_ACTION_DONE
-                || event.getAction() == KeyEvent.ACTION_DOWN
-                || event.getAction() == KeyEvent.KEYCODE_ENTER){
-                    //Execute our method for searching
-                    geoLocate();
-                }
-                return true;
-            }
-        });
-        //hideSoftKeyBoard();
-    }
+//    private void initMapSearchBar(){
+//        Log.d(TAG, "initMapSearchBar: initializing");
+//        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                if(actionId == EditorInfo.IME_ACTION_SEARCH
+//                || actionId == EditorInfo.IME_ACTION_DONE
+//                || event.getAction() == KeyEvent.ACTION_DOWN
+//                || event.getAction() == KeyEvent.KEYCODE_ENTER){
+//                    //Execute our method for searching
+//                    geoLocate();
+//                }
+//                return true;
+//            }
+//        });
+//        //hideSoftKeyBoard();
+//    }
 
-    private void geoLocate(){
-        Log.d(TAG, "geoLocate: geolocating");
-
-        String searchString = mSearchText.getText().toString();
-        Geocoder geocoder = new Geocoder(getContext());
-        List<Address> list = new ArrayList<>();
-        try{
-            list = geocoder.getFromLocationName(searchString, 1);
-        } catch (IOException e){
-            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
-        }
-        if(list.size() > 0){
-            Address address = list.get(0);
-            Log.d(TAG, "geoLocate: found a location: " + address.toString());
-            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
-        }
-    }
+//    private void geoLocate(){
+//        Log.d(TAG, "geoLocate: geolocating");
+//
+//        String searchString = mSearchText.getText().toString();
+//        Geocoder geocoder = new Geocoder(getContext());
+//        List<Address> list = new ArrayList<>();
+//        try{
+//            list = geocoder.getFromLocationName(searchString, 1);
+//        } catch (IOException e){
+//            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
+//        }
+//        if(list.size() > 0){
+//            Address address = list.get(0);
+//            Log.d(TAG, "geoLocate: found a location: " + address.toString());
+//            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
+//        }
+//    }
 
     private void showNearByRestaurant(){
 //        ArrayList<LatLng> place = new ArrayList<>();
 //        LatLng quan1 = new LatLng(11.39, 106.23);
 //        LatLng quan2 = new LatLng(11.386, 106.23);
 //        LatLng quan3 = new LatLng(11.391, 106.23);
-//        place.add(quan1);
-//        place.add(quan2);
-//        place.add(quan3);
-//
-//        for(int i = 0; i <= 2; i++){
-//            mMap.addMarker(new MarkerOptions().position(place.get(i)).title("Quan " + i));
-//            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-//            mMap.moveCamera(CameraUpdateFactory.newLatLng(place.get(i)));
-//        }
-
-//        final double lat = 11.39;
-//        final double longi = 106.23;
-//        LatLng pos = new LatLng(lat, longi);
-//        mMap.addMarker(new MarkerOptions().position(pos).title("test place"));
-//        mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
-
-//        MarkerOptions markerOptions = new MarkerOptions();
-//        markerOptions.position(pos);
-//        markerOptions.title("Test place");
-        //moveCamera(new LatLng(lat, longi), DEFAULT_ZOOM, "Test place");
 
         getDeviceLocation();
         double lat_rad= (currentLat*3.14)/180;
@@ -365,9 +349,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                             currentLat = currentLocation.getLatitude();
                             currentLong = currentLocation.getLongitude();
                             moveCamera(new LatLng(currentLat, currentLong), DEFAULT_ZOOM, "My location");
-//                            showNearByRestaurant();
-//                            Toast.makeText(getContext(), "lat:" + currentLat + "\tLong:" + currentLong, Toast.LENGTH_LONG).show();
-//                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My location");
                         } else {
                             Log.d(TAG, "onComplete: Your current location is null");
                             Toast.makeText(getActivity(), "Unable to get your current location", Toast.LENGTH_LONG).show();
