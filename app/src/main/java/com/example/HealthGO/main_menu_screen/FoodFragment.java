@@ -24,6 +24,9 @@ import com.example.HealthGO.R;
 import com.example.HealthGO.food.FoodAdapter;
 import com.example.HealthGO.food.FoodCard;
 import com.example.HealthGO.food.SearchFoodActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -134,6 +137,14 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
 
     @Override
     public void onLongItemClick(int position) {
-        Toast.makeText(getContext(), "you long click food with id: " + list.get(position).getId(), Toast.LENGTH_SHORT).show();
+        String FoodID = list.get(position).getId();
+        String UserID = FirebaseAuth.getInstance().getUid();
+
+
+
+        DocumentReference docRef = db.collection("user").document(UserID);
+        docRef.update("favoritefood", FieldValue.arrayUnion(FoodID));
+
+        Toast.makeText(getContext(), "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
     }
 }
