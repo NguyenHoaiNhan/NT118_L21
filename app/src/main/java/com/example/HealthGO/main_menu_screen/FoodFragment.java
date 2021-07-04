@@ -105,7 +105,7 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
                             String URL = document.getString("URL");
                             //Source => URL of the paper
                             String Source = document.getString("Source");
-                            String id = document.getString("id");
+                            String id = document.getId();
 
                             list.add(new FoodCard(Title, URL, Source, Rating, id));
                         }
