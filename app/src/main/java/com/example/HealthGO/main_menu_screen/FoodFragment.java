@@ -105,8 +105,9 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
                             String URL = document.getString("URL");
                             //Source => URL of the paper
                             String Source = document.getString("Source");
+                            String id = document.getString("id");
 
-                            list.add(new FoodCard(Title, URL, Source, Rating));
+                            list.add(new FoodCard(Title, URL, Source, Rating, id));
                         }
 
                         LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(view.getContext(), R.anim.anim_left_to_right);
@@ -133,6 +134,6 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
 
     @Override
     public void onLongItemClick(int position) {
-        Toast.makeText(getContext(), "you long click", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "you long click food with id: " + list.get(position).getId(), Toast.LENGTH_SHORT).show();
     }
 }

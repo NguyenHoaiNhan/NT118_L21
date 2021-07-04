@@ -9,21 +9,31 @@ public class FoodCard {
     private String Description;
     private String ImageSource;
     private String Source;
+    private String id;
     private double Rating;
 
     public FoodCard(){}
 
-    public FoodCard(String Title, String ImageSource, String source, double Rating) {
+    public FoodCard(String Title, String ImageSource, String source, double Rating, String id) {
         this.Title = Title;
         this.ImageSource = ImageSource;
         this.Source = source;
         this.Rating = Rating;
+        this.id = id;
     }
     public FoodCard(String Title, String Description, String ImageSource, String source) {
         this.Title = Title;
         this.Description = Description;
         this.ImageSource = ImageSource;
         this.Source = source;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
