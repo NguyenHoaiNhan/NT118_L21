@@ -24,6 +24,9 @@ import com.example.HealthGO.R;
 import com.example.HealthGO.food.FoodAdapter;
 import com.example.HealthGO.food.FoodCard;
 import com.example.HealthGO.food.SearchFoodActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -105,8 +108,8 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
                             String URL = document.getString("URL");
                             //Source => URL of the paper
                             String Source = document.getString("Source");
-
-                            list.add(new FoodCard(Title, URL, Source, Rating));
+                            String Id = document.getString("id");
+                            list.add(new FoodCard(Id, Title, URL, Source, Rating));
                         }
 
                         LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(view.getContext(), R.anim.anim_left_to_right);
@@ -133,6 +136,10 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
 
     @Override
     public void onLongItemClick(int position) {
-//        Toast.makeText(getContext(), "You long click " + position, Toast.LENGTH_SHORT).show();
+        String FoodID = list.get(position).getId();
+        String UserID = FirebaseAuth.getInstance().getUid();
+
+        DocumentReference docRef = db.collection("user").document(UserID);
+        docRef.update("favoritefood", FieldValue.arrayUnion(FoodID));
     }
 }

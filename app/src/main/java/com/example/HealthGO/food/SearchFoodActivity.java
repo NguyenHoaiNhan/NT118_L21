@@ -100,7 +100,8 @@ public class SearchFoodActivity extends AppCompatActivity implements RecyclerVie
                             String Description = document.getString("Brief description");
                             String ImgUrl = document.getString("URL");
                             String Source = document.getString("Source");
-                            originList.add(new FoodCard(Title, Description, ImgUrl, Source));
+                            String Id = document.getString("id");
+                            originList.add(new FoodCard(Id, Title, Description, ImgUrl, Source));
                         }
 
                         suggestionList.clear();
