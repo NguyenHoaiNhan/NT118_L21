@@ -38,7 +38,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private FloatingActionButton FaceBook, Google, Twitter;
+//    private FloatingActionButton FaceBook, Google, Twitter;
     private FirebaseFirestore mStore;
     Map<String, Object> user = new HashMap<>();
 
@@ -69,14 +69,14 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         init();
-        animation();
+//        animation();
         GoogleCreateRequest();
-        GoogleClicked();
+//        GoogleClicked();
     }
 
-    private void GoogleClicked() {
-        Google.setOnClickListener(v -> signInGoogle());
-    }
+//    private void GoogleClicked() {
+//        Google.setOnClickListener(v -> signInGoogle());
+//    }
 
     private void GoogleCreateRequest() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -135,9 +135,9 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.viewPager);
-        FaceBook = findViewById(R.id.fab_facebook);
-        Google = findViewById(R.id.fab_google);
-        Twitter = findViewById(R.id.fab_twitter);
+//        FaceBook = findViewById(R.id.fab_facebook);
+//        Google = findViewById(R.id.fab_google);
+//        Twitter = findViewById(R.id.fab_twitter);
         mStore = FirebaseFirestore.getInstance();
 
         tabLayout.addTab(tabLayout.newTab().setText("Login"));
@@ -162,20 +162,20 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
     }
-    private void animation() {
-        FaceBook.setTranslationY(300);
-        Google.setTranslationY(300);
-        Twitter.setTranslationY(300);
-        tabLayout.setTranslationY(300);
-
-        FaceBook.setAlpha(v);
-        Google.setAlpha(v);
-        Twitter.setAlpha(v);
-        tabLayout.setAlpha(v);
-
-        FaceBook.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(400).start();
-        Google.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(600).start();
-        Twitter.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(800).start();
-        tabLayout.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(100).start();
-    }
+//    private void animation() {
+//        FaceBook.setTranslationY(300);
+//        Google.setTranslationY(300);
+//        Twitter.setTranslationY(300);
+//        tabLayout.setTranslationY(300);
+//
+//        FaceBook.setAlpha(v);
+//        Google.setAlpha(v);
+//        Twitter.setAlpha(v);
+//        tabLayout.setAlpha(v);
+//
+//        FaceBook.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(400).start();
+//        Google.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(600).start();
+//        Twitter.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(800).start();
+//        tabLayout.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(100).start();
+//    }
 }
