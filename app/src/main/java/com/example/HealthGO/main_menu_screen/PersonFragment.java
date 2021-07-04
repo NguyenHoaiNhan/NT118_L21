@@ -1,6 +1,7 @@
 package com.example.HealthGO.main_menu_screen;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.HealthGO.MainActivity;
 import com.example.HealthGO.R;
+import com.example.HealthGO.person.ShowDetailFavoriteFood;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -41,8 +43,7 @@ public class PersonFragment extends Fragment {
     private ImageView Logout;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
-    private TextView About, EditProfile, uEmail, uName, Report;
-    private SwitchCompat Notify;
+    private TextView About, showfood, uEmail, uName, Report;
     private FirebaseFirestore mStore;
 
     public PersonFragment() {
@@ -73,7 +74,7 @@ public class PersonFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_person, container, false);
 
         init(view);
-        animation();
+//        animation();
         SignOut(view);
 
         Report.setOnClickListener(new View.OnClickListener() {
@@ -84,14 +85,30 @@ public class PersonFragment extends Fragment {
             }
         });
 
+        showfood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ShowDetailFavoriteFood.class);
+                startActivity(intent);
+            }
+        });
+
+        About.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                callIntent.setData(Uri.parse("tel:0869137138"));
+                startActivity(callIntent);
+            }
+        });
+
         return view;
     }
 
     private void init(View view) {
         Logout = view.findViewById(R.id.Logout);
         About = view.findViewById(R.id.About);
-        EditProfile = view.findViewById(R.id.EditProfile);
-        Notify = view.findViewById(R.id.Notify);
+        showfood = view.findViewById(R.id.tv_favorite_food);
         uEmail = view.findViewById(R.id.UserGmail);
         uName = view.findViewById(R.id.UserName);
         Report = view.findViewById(R.id.Report);
@@ -107,21 +124,21 @@ public class PersonFragment extends Fragment {
 
     private void animation() {
         Logout.setTranslationX(300);
-        EditProfile.setTranslationY(800);
-        Notify.setTranslationY(800);
+        showfood.setTranslationY(800);
+//        Notify.setTranslationY(800);
         Report.setTranslationY(800);
         About.setTranslationY(800);
 
 
         Logout.setAlpha(0);
-        EditProfile.setAlpha(0);
-        Notify.setAlpha(0);
+        showfood.setAlpha(0);
+//        Notify.setAlpha(0);
         Report.setAlpha(0);
         About.setAlpha(0);
 
         Logout.animate().translationX(0).alpha(1).setDuration(600).setStartDelay(300).start();
-        EditProfile.animate().translationY(0).alpha(1).setDuration(600).setStartDelay(300).start();
-        Notify.animate().translationY(0).alpha(1).setDuration(600).setStartDelay(300).start();
+        showfood.animate().translationY(0).alpha(1).setDuration(600).setStartDelay(300).start();
+//        Notify.animate().translationY(0).alpha(1).setDuration(600).setStartDelay(300).start();
         Report.animate().translationY(0).alpha(1).setDuration(600).setStartDelay(400).start();
         About.animate().translationY(0).alpha(1).setDuration(600).setStartDelay(500).start();
     }

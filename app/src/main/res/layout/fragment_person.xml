@@ -106,7 +106,28 @@
             android:background="@drawable/background_sub">
 
             <TextView
-                android:id="@+id/EditProfile"
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawablePadding="16dp"
+                android:gravity="center_horizontal"
+                android:padding="10dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="Hỗ Trợ "
+                android:textColor="@color/black"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent=".5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.077"
+                app:layout_constraintWidth_percent=".8" />
+
+            <TextView
+                android:id="@+id/tv_favorite_food"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_et"
@@ -114,38 +135,18 @@
                 android:padding="10dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="@string/EditProfile"
+                android:text="Món bạn ăn yêu thích"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintHeight_percent=".5"
+                app:drawableStartCompat="@drawable/ic_person_listfood"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent=".5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias=".15"
-                app:layout_constraintWidth_percent=".8"
-                app:drawableStartCompat="@drawable/ic_person" />
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/Notify"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/shape_et"
-                android:checked="true"
-                android:drawableStart="@drawable/ic_notify"
-                android:drawablePadding="20dp"
-                android:padding="10dp"
-                android:text="@string/Notification"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/EditProfile"
-                app:layout_constraintStart_toStartOf="@+id/EditProfile"
-                app:layout_constraintTop_toBottomOf="@+id/EditProfile"
-                app:layout_constraintVertical_bias="0" />
+                app:layout_constraintVertical_bias="0.35"
+                app:layout_constraintWidth_percent=".8" />
 
             <TextView
                 android:id="@+id/Report"
@@ -156,15 +157,15 @@
                 android:checked="true"
                 android:drawablePadding="16dp"
                 android:padding="10dp"
-                android:text="@string/Report"
+                android:text="Gửi lời góp ý cho hệ thống"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/Notify"
+                app:layout_constraintEnd_toEndOf="@+id/tv_favorite_food"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/Notify"
-                app:layout_constraintTop_toBottomOf="@+id/Notify"
+                app:layout_constraintStart_toStartOf="@+id/tv_favorite_food"
+                app:layout_constraintTop_toBottomOf="@+id/tv_favorite_food"
                 app:layout_constraintVertical_bias="0"
                 app:drawableStartCompat="@drawable/ic_report" />
 
@@ -177,7 +178,7 @@
                 android:checked="true"
                 android:drawablePadding="10dp"
                 android:padding="10dp"
-                android:text="@string/About"
+                android:text="Liên hệ đường dây nóng"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -187,7 +188,7 @@
                 app:layout_constraintStart_toStartOf="@+id/Report"
                 app:layout_constraintTop_toBottomOf="@+id/Report"
                 app:layout_constraintVertical_bias="0"
-                app:drawableStartCompat="@drawable/ic_info" />
+                app:drawableStartCompat="@drawable/ic_emer" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -74,7 +74,7 @@ public class FoodSuggestionAdapter extends RecyclerView.Adapter<FoodSuggestionAd
                 @Override
                 public boolean onLongClick(View v) {
                     recyclerViewClickInterface.onLongItemClick(getAdapterPosition());
-                    return false;
+                    return true;
                 }
             });
         }

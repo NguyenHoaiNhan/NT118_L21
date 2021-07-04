@@ -120,6 +120,8 @@
 
         <activity android:name=".map.ShowDetailRestaurant"/>
 
+        <activity android:name=".person.ShowDetailFavoriteFood"/>
+
     </application>
 
 </manifest>

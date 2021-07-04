@@ -140,8 +140,6 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
         String FoodID = list.get(position).getId();
         String UserID = FirebaseAuth.getInstance().getUid();
 
-
-
         DocumentReference docRef = db.collection("user").document(UserID);
         docRef.update("favoritefood", FieldValue.arrayUnion(FoodID));
 
