@@ -44,7 +44,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
                 @Override
                 public boolean onLongClick(View v) {
                     recyclerViewClickInterface.onLongItemClick(getAdapterPosition());
-                    return false;
+                    return true;
                 }
             });
         }

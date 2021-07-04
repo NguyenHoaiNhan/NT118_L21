@@ -133,6 +133,6 @@ public class FoodFragment extends Fragment implements RecyclerViewClickInterface
 
     @Override
     public void onLongItemClick(int position) {
-//        Toast.makeText(getContext(), "You long click " + position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "you long click", Toast.LENGTH_LONG).show();
     }
 }
